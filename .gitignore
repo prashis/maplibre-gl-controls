@@ -1,0 +1,18 @@
+# nodejs
+node_modules/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ide
+.idea/
+
+# osx
+.DS_Store
+
+# build
+lib/
+
+# env
+.env

@@ -1,0 +1,15 @@
+{
+  "extends": ["eslint-config-xxx", "plugin:@typescript-eslint/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "env": {
+    "browser": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
+  "rules": {
+    "@typescript-eslint/explicit-module-boundary-types": 0,
+    "operator-linebreak": [2, "before"]
+  }
+}
