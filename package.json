@@ -1,8 +1,11 @@
 {
   "name": "@prashis/maplibre-gl-controls",
   "version": "1.0.0",
-  "main": "./lib/index.js",
+  "main": "dist/index.js",
   "description": "Controls for maplibre-gl",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "lint": "npm run lint:prettier && npm run lint:eslint",
     "lintfix": "npm run lint:prettier:fix && npm run lint:eslint:fix",
@@ -10,10 +13,9 @@
     "lint:eslint:fix": "eslint --fix \"{,!(node_modules|dist|docs)/**/}*.{js,ts}\" --ignore-path .gitignore",
     "lint:prettier": "prettier --check \"{,!(node_modules|dist|docs)/**/}*.{js,ts}\" --ignore-path .gitignore",
     "lint:prettier:fix": "prettier --write \"{,!(node_modules|dist|docs)/**/}*.{js,ts}\" --ignore-path .gitignore",
-    "watch": "tsc --watch & sass --watch src/index.scss:lib/controls.css",
-    "build": "tsc && sass src/index.scss:lib/controls.css",
-    "docs": "cp lib/controls.css docs && rollup --config docs/rollup.config.js",
-    "docs:watch": "cp lib/controls.css docs && rollup --config docs/rollup.config.js --watch",
+    "build": "tsc && sass src/index.scss:dist/controls.css",
+    "docs": "cp dist/controls.css docs && rollup --config docs/rollup.config.js",
+    "docs:watch": "cp dist/controls.css docs && rollup --config docs/rollup.config.js --watch",
     "release": "shipjs prepare"
   },
   "devDependencies": {
@@ -40,7 +42,10 @@
     "maplibre-gl": "^1.15.2"
   },
   "homepage": "https://prashis.github.io/maplibre-gl-controls/",
-  "repository": "prashis/maplibre-gl-controls",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prashis/maplibre-gl-controls.git"
+  },
   "keywords": [
     "maplibre"
   ],

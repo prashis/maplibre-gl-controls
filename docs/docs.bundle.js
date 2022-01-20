@@ -60,7 +60,8 @@
 </svg>
 `;
 	function iconPointer () {
-	    return (new DOMParser().parseFromString(svg$7, 'image/svg+xml')).firstChild;
+	    return new DOMParser().parseFromString(svg$7, 'image/svg+xml')
+	        .firstChild;
 	}
 
 	class Base {
@@ -145,7 +146,7 @@
 	        this.map.on('rotate', this.syncRotate);
 	    }
 	    syncRotate() {
-	        const angle = this.map.getBearing() * (-1);
+	        const angle = this.map.getBearing() * -1;
 	        if (!this.instant) {
 	            this.node.hidden = angle === 0;
 	        }
@@ -160,7 +161,8 @@
 </svg>
 `;
 	function iconImage () {
-	    return (new DOMParser().parseFromString(svg$6, 'image/svg+xml')).firstChild;
+	    return new DOMParser().parseFromString(svg$6, 'image/svg+xml')
+	        .firstChild;
 	}
 
 	class IImage {
@@ -168,7 +170,7 @@
 	        this.locked = false;
 	    }
 	    loadFile(file) {
-	        return new Promise(((resolve, reject) => {
+	        return new Promise((resolve, reject) => {
 	            const reader = new FileReader();
 	            const node = new Image();
 	            reader.addEventListener('load', () => {
@@ -184,10 +186,10 @@
 	                node.src = imageUrl;
 	            }, false);
 	            reader.readAsDataURL(file);
-	        }));
+	        });
 	    }
 	    loadUrl(url) {
-	        return new Promise(((resolve, reject) => {
+	        return new Promise((resolve, reject) => {
 	            const node = new Image();
 	            node.onload = () => {
 	                this.id = url.split('/').pop();
@@ -198,7 +200,7 @@
 	            };
 	            node.onerror = reject;
 	            node.src = url;
-	        }));
+	        });
 	    }
 	    setInitialPosition(map) {
 	        if (!this.width || !this.height)
@@ -219,10 +221,10 @@
 	            [canvasWidth / 2 - resizeWidth / 2, canvasHeight / 2 + resizeHeight / 2], // left bottom
 	        ];
 	        map.setPitch(0); // reset pitch for correct projection
-	        this.position = result.map(point => map.unproject(point));
+	        this.position = result.map((point) => map.unproject(point));
 	    }
 	    get coordinates() {
-	        return this.position.map(p => [p.lng, p.lat]);
+	        return this.position.map((p) => [p.lng, p.lat]);
 	    }
 	    get asPolygon() {
 	        return {
@@ -231,7 +233,10 @@
 	                {
 	                    type: 'Feature',
 	                    properties: { id: this.id },
-	                    geometry: { type: 'Polygon', coordinates: [[...this.coordinates, this.coordinates[0]]] },
+	                    geometry: {
+	                        type: 'Polygon',
+	                        coordinates: [[...this.coordinates, this.coordinates[0]]],
+	                    },
 	                },
 	            ],
 	        };
@@ -273,12 +278,12 @@
 	        };
 	    }
 	    get fillLayer() {
-	        return ({
+	        return {
 	            id: `${this.id}-fill`,
 	            type: 'fill',
 	            source: this.polygonSource.id,
 	            paint: { 'fill-opacity': 0 },
-	        });
+	        };
 	    }
 	    get ratio() {
 	        return this.width / this.height;
@@ -342,10 +347,10 @@
 	        'circle-color': '#3d5afe',
 	        'circle-stroke-width': 3,
 	        'circle-stroke-color': '#fff',
-	    }
+	    },
 	};
 
-	function moveable({ map, image, cursorPosition, onUpdate }) {
+	function moveable({ map, image, cursorPosition, onUpdate, }) {
 	    const mapCanvas = map.getCanvas();
 	    const imageBounds = new mapboxgl.LngLatBounds(image.position[3], image.position[1]);
 	    let startPosition = null;
@@ -358,7 +363,7 @@
 	        const currentPosition = event.lngLat;
 	        const deltaLng = startPosition.lng - currentPosition.lng;
 	        const deltaLat = startPosition.lat - currentPosition.lat;
-	        onUpdate(image.position.map(p => new maplibreGl.exports.LngLat(p.lng - deltaLng, p.lat - deltaLat)));
+	        onUpdate(image.position.map((p) => new maplibreGl.exports.LngLat(p.lng - deltaLng, p.lat - deltaLat)));
 	        startPosition = currentPosition;
 	    }
 	    function onPointerUp() {
@@ -408,7 +413,7 @@
 	    const t = vu / v2;
 	    return [a[0] + v[0] * t, a[1] + v[1] * t];
 	}
-	function resizeable({ map, image, onUpdate }) {
+	function resizeable({ map, image, onUpdate, }) {
 	    const mapCanvas = map.getCanvas();
 	    let currentIndex;
 	    map.addLayer(Object.assign(Object.assign({}, contourLayer), { source: image.polygonSource.id }));
@@ -462,7 +467,9 @@
 	        mapCanvas.style.cursor = '';
 	    }
 	    function setResizeCursor(index) {
-	        mapCanvas.style.cursor = [1, 3].includes(index) ? Cursor.NESWResize : Cursor.NWSEResize;
+	        mapCanvas.style.cursor = [1, 3].includes(index)
+	            ? Cursor.NESWResize
+	            : Cursor.NWSEResize;
 	    }
 	    map.on('mouseenter', cornersLayer.id, onPointerEnter);
 	    map.on('mouseleave', cornersLayer.id, onPointerLeave);
@@ -553,7 +560,7 @@
 	        this.map.addLayer(image.fillLayer);
 	    }
 	    redraw() {
-	        this.images.forEach(image => this.drawImage(image));
+	        this.images.forEach((image) => this.drawImage(image));
 	        if (this.movingModeOff) {
 	            this.movingModeOff();
 	        }
@@ -562,8 +569,10 @@
 	        }
 	    }
 	    onMapClick(event) {
-	        const imageFillLayersId = this.images.map(i => i.fillLayer.id);
-	        const features = this.map.queryRenderedFeatures(event.point, { layers: imageFillLayersId });
+	        const imageFillLayersId = this.images.map((i) => i.fillLayer.id);
+	        const features = this.map.queryRenderedFeatures(event.point, {
+	            layers: imageFillLayersId,
+	        });
 	        if (features.length) {
 	            this.selectImage(features[0].properties.id);
 	        }
@@ -585,15 +594,15 @@
 	        this.transformModeOff = resizeable({
 	            map: this.map,
 	            image: this.selectedImage,
-	            onUpdate: ((position) => {
+	            onUpdate: (position) => {
 	                this.updateImageSource(position);
-	            }),
+	            },
 	        });
 	    }
 	    selectImage(id) {
 	        if (this.selectedImage && this.selectedImage.id !== id)
 	            this.deselectImage();
-	        const selectedImage = this.images.find(i => i.id === id);
+	        const selectedImage = this.images.find((i) => i.id === id);
 	        if (selectedImage.locked)
 	            return;
 	        this.selectedImage = selectedImage;
@@ -632,7 +641,7 @@
 	        this.map.fire('image.update', this.selectedImage);
 	    }
 	    setLock(imageId, value) {
-	        const image = this.images.find(i => i.id === imageId);
+	        const image = this.images.find((i) => i.id === imageId);
 	        if (!image)
 	            throw Error(`image with id ${imageId} doesn't exist`);
 	        image.locked = value;
@@ -672,7 +681,8 @@
 </svg>
 `;
 	function iconLeft () {
-	    return (new DOMParser().parseFromString(svg$5, 'image/svg+xml')).firstChild;
+	    return new DOMParser().parseFromString(svg$5, 'image/svg+xml')
+	        .firstChild;
 	}
 
 	const svg$4 = `
@@ -682,7 +692,8 @@
 </svg>
 `;
 	function iconRight () {
-	    return (new DOMParser().parseFromString(svg$4, 'image/svg+xml')).firstChild;
+	    return new DOMParser().parseFromString(svg$4, 'image/svg+xml')
+	        .firstChild;
 	}
 
 	var Direction;
@@ -729,7 +740,7 @@
 	        const button = document.createElement('div');
 	        button.setAttribute('type', 'button');
 	        button.classList.add('mapbox-control-inspect-next');
-	        button.appendChild((iconRight()));
+	        button.appendChild(iconRight());
 	        button.addEventListener('click', () => goTo(Direction.Next));
 	        return button;
 	    };
@@ -805,7 +816,8 @@
 </svg>
 `;
 	function iconInspect () {
-	    return (new DOMParser().parseFromString(svg$3, 'image/svg+xml')).firstChild;
+	    return new DOMParser().parseFromString(svg$3, 'image/svg+xml')
+	        .firstChild;
 	}
 
 	class InspectControl extends Base {
@@ -911,15 +923,35 @@
 	    return JSON.parse(str.replace(/{name.*?}/g, `{${lang}}`));
 	}
 
-	const SUPPORTED_LANGUAGES = ['en', 'es', 'fr', 'de', 'ru', 'zh', 'pt', 'ar', 'ja', 'ko', 'mul'];
+	const SUPPORTED_LANGUAGES = [
+	    'en',
+	    'es',
+	    'fr',
+	    'de',
+	    'ru',
+	    'zh',
+	    'pt',
+	    'ar',
+	    'ja',
+	    'ko',
+	    'mul',
+	];
 	class LanguageControl extends Base {
 	    constructor(options) {
-	        var _a, _b, _c;
 	        super();
-	        this.supportedLanguages = (_a = options === null || options === void 0 ? void 0 : options.supportedLanguages) !== null && _a !== void 0 ? _a : SUPPORTED_LANGUAGES;
+	        this.supportedLanguages = SUPPORTED_LANGUAGES;
+	        this.getLanguageField = getLanguageField;
+	        this.excludedLayerIds = [];
 	        this.language = options === null || options === void 0 ? void 0 : options.language;
-	        this.getLanguageField = (_b = options === null || options === void 0 ? void 0 : options.getLanguageField) !== null && _b !== void 0 ? _b : getLanguageField;
-	        this.excludedLayerIds = (_c = options === null || options === void 0 ? void 0 : options.excludedLayerIds) !== null && _c !== void 0 ? _c : [];
+	        if (options === null || options === void 0 ? void 0 : options.supportedLanguages) {
+	            this.supportedLanguages = options.supportedLanguages;
+	        }
+	        if (options === null || options === void 0 ? void 0 : options.getLanguageField) {
+	            this.getLanguageField = options.getLanguageField;
+	        }
+	        if (options === null || options === void 0 ? void 0 : options.excludedLayerIds) {
+	            this.excludedLayerIds = options.excludedLayerIds;
+	        }
 	        this.styleChangeListener = this.styleChangeListener.bind(this);
 	    }
 	    onAddControl() {
@@ -950,7 +982,9 @@
 	        this.map.setStyle(Object.assign(Object.assign({}, style), { layers }));
 	    }
 	    browserLanguage() {
-	        const language = navigator.languages ? navigator.languages[0] : navigator.language;
+	        const language = navigator.languages
+	            ? navigator.languages[0]
+	            : navigator.language;
 	        const parts = language.split('-');
 	        const languageCode = parts.length > 1 ? parts[0] : language;
 	        if (this.supportedLanguages.indexOf(languageCode) > -1)
@@ -1135,7 +1169,8 @@
 </svg>
 `;
 	function iconRuler () {
-	    return (new DOMParser().parseFromString(svg$2, 'image/svg+xml')).firstChild;
+	    return new DOMParser().parseFromString(svg$2, 'image/svg+xml')
+	        .firstChild;
 	}
 
 	const LAYER_LINE = 'controls-layer-line';
@@ -1237,14 +1272,17 @@
 	        this.map.removeLayer(LAYER_SYMBOL);
 	        this.map.removeSource(SOURCE_LINE);
 	        this.map.removeSource(SOURCE_SYMBOL);
-	        this.markers.forEach(m => m.remove());
+	        this.markers.forEach((m) => m.remove());
 	        this.map.off('click', this.mapClickListener);
 	        this.map.off('style.load', this.styleLoadListener);
 	        this.map.fire('ruler.off');
 	    }
 	    mapClickListener(event) {
 	        const markerNode = this.getMarkerNode();
-	        const marker = new mapboxgl.Marker({ element: markerNode, draggable: true })
+	        const marker = new mapboxgl.Marker({
+	            element: markerNode,
+	            draggable: true,
+	        })
 	            .setLngLat(event.lngLat)
 	            .addTo(this.map);
 	        const newCoordinate = [event.lngLat.lng, event.lngLat.lat];
@@ -1330,7 +1368,7 @@
 	            this.buttons.forEach((button) => {
 	                button.removeClassName('-active');
 	            });
-	            const styleNames = this.styles.map(style => style.styleName);
+	            const styleNames = this.styles.map((style) => style.styleName);
 	            const currentStyleIndex = styleNames.indexOf(this.map.getStyle().name);
 	            if (currentStyleIndex !== -1) {
 	                const currentButton = this.buttons[currentStyleIndex];
@@ -1344,7 +1382,8 @@
 	                label: 'Streets',
 	                styleName: 'Mapbox Streets',
 	                styleUrl: 'mapbox://styles/mapbox/streets-v11',
-	            }, {
+	            },
+	            {
 	                label: 'Satellite',
 	                styleName: 'Mapbox Satellite Streets',
 	                styleUrl: 'mapbox://sprites/mapbox/satellite-streets-v11',
@@ -1436,7 +1475,8 @@
 </svg>
 `;
 	function iconPlus () {
-	    return (new DOMParser().parseFromString(svg$1, 'image/svg+xml')).firstChild;
+	    return new DOMParser().parseFromString(svg$1, 'image/svg+xml')
+	        .firstChild;
 	}
 
 	const svg = `
@@ -1446,7 +1486,8 @@
 </svg>
 `;
 	function iconMinus () {
-	    return (new DOMParser().parseFromString(svg, 'image/svg+xml')).firstChild;
+	    return new DOMParser().parseFromString(svg, 'image/svg+xml')
+	        .firstChild;
 	}
 
 	class ZoomControl extends Base {

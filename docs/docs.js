@@ -8,7 +8,7 @@ import {
   StylesControl,
   ZoomControl,
   TooltipControl,
-} from '../lib'
+} from '../dist'
 
 mapboxgl.accessToken = 'pk.eyJ1Ijoia29yeXdrYSIsImEiOiJja2p1ajdlOWozMnF2MzBtajRvOTVzZDRpIn0.nnlX7TDuZ3zuGkZGr_oA3A';
 
