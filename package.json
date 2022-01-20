@@ -1,6 +1,6 @@
 {
   "name": "@prashis/maplibre-gl-controls",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.js",
   "description": "Controls for maplibre-gl",
   "files": [
