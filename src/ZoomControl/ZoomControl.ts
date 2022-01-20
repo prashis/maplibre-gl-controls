@@ -4,8 +4,8 @@ import iconPlus from '../icons/plus';
 import iconMinus from '../icons/minus';
 
 export default class ZoomControl extends Base {
-  zoomIn: Button
-  zoomOut: Button
+  zoomIn: Button;
+  zoomOut: Button;
 
   constructor() {
     super();

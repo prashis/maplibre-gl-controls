@@ -2,31 +2,52 @@ import getLanguageField from './getLanguageField';
 import localizeTextField from './localizeTextField';
 import Base from '../Base/Base';
 
-const SUPPORTED_LANGUAGES = ['en', 'es', 'fr', 'de', 'ru', 'zh', 'pt', 'ar', 'ja', 'ko', 'mul'];
+const SUPPORTED_LANGUAGES = [
+  'en',
+  'es',
+  'fr',
+  'de',
+  'ru',
+  'zh',
+  'pt',
+  'ar',
+  'ja',
+  'ko',
+  'mul',
+];
 
 interface LanguageControlOptions {
   /** (supported languages)[https://docs.mapbox.com/help/troubleshooting/change-language/] */
-  supportedLanguages?: string[]
+  supportedLanguages?: string[];
   /** one of the supported languages to apply */
-  language?: string
+  language?: string;
   /** Accepts language and returns language field. By default fields are `name_LANGUAGE` and `name` for multi language (mul) */
-  getLanguageField?: (language: string) => string
+  getLanguageField?: (language: string) => string;
   /** Array of layer id to exclude from localization */
-  excludedLayerIds?: string[]
+  excludedLayerIds?: string[];
 }
 
 export default class LanguageControl extends Base {
-  supportedLanguages: string[]
-  language: string
-  getLanguageField: (language: string) => string
-  excludedLayerIds: string[]
+  supportedLanguages: string[];
+  language: string;
+  getLanguageField: (language: string) => string;
+  excludedLayerIds: string[];
 
   constructor(options?: LanguageControlOptions) {
     super();
-    this.supportedLanguages = options?.supportedLanguages ?? SUPPORTED_LANGUAGES;
+    this.supportedLanguages = SUPPORTED_LANGUAGES;
+    this.getLanguageField = getLanguageField;
+    this.excludedLayerIds = [];
     this.language = options?.language;
-    this.getLanguageField = options?.getLanguageField ?? getLanguageField;
-    this.excludedLayerIds = options?.excludedLayerIds ?? [];
+    if (options?.supportedLanguages) {
+      this.supportedLanguages = options.supportedLanguages;
+    }
+    if (options?.getLanguageField) {
+      this.getLanguageField = options.getLanguageField;
+    }
+    if (options?.excludedLayerIds) {
+      this.excludedLayerIds = options.excludedLayerIds;
+    }
     this.styleChangeListener = this.styleChangeListener.bind(this);
   }
 
@@ -65,7 +86,9 @@ export default class LanguageControl extends Base {
   }
 
   browserLanguage() {
-    const language = navigator.languages ? navigator.languages[0] : navigator.language;
+    const language = navigator.languages
+      ? navigator.languages[0]
+      : navigator.language;
     const parts = language.split('-');
     const languageCode = parts.length > 1 ? parts[0] : language;
     if (this.supportedLanguages.indexOf(languageCode) > -1) return languageCode;

@@ -4,12 +4,12 @@ import Button from '../Button/Button';
 
 interface CompassControlOptions {
   /** Show compass if bearing is 0 */
-  instant?: boolean
+  instant?: boolean;
 }
 
 export default class CompassControl extends Base {
-  button: Button
-  instant: boolean
+  button: Button;
+  instant: boolean;
 
   constructor(options?: CompassControlOptions) {
     super();
@@ -34,9 +34,8 @@ export default class CompassControl extends Base {
     this.map.on('rotate', this.syncRotate);
   }
 
-
   syncRotate() {
-    const angle = this.map.getBearing() * (-1);
+    const angle = this.map.getBearing() * -1;
     if (!this.instant) {
       this.node.hidden = angle === 0;
     }

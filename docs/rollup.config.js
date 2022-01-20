@@ -10,9 +10,6 @@ export default [
       sourcemap: true,
     },
     context: 'window',
-    plugins: [
-      resolve(),
-      commonjs({ sourceMap: false }),
-    ],
+    plugins: [resolve(), commonjs({ sourceMap: false })],
   },
 ];

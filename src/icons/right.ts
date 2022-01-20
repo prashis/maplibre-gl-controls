@@ -6,5 +6,6 @@ const svg = `
 `;
 
 export default function () {
-  return (new DOMParser().parseFromString(svg, 'image/svg+xml')).firstChild as SVGElement;
+  return new DOMParser().parseFromString(svg, 'image/svg+xml')
+    .firstChild as SVGElement;
 }

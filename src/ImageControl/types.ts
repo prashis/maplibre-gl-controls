@@ -1,6 +1,6 @@
 import { LngLat } from 'maplibre-gl';
 
-export type ImagePosition = [LngLat, LngLat, LngLat, LngLat]
+export type ImagePosition = [LngLat, LngLat, LngLat, LngLat];
 
 export enum Cursor {
   Default = '',
@@ -11,12 +11,12 @@ export enum Cursor {
 }
 
 export enum EditMode {
-  None= 'none',
-  Move= 'move',
+  None = 'none',
+  Move = 'move',
   Transform = 'transform',
 }
 
 export enum Visibility {
-  Visible= 'visible',
+  Visible = 'visible',
   None = 'none',
 }

@@ -1,4 +1,9 @@
-import { LngLat, MapboxGeoJSONFeature, MapMouseEvent, PointLike } from 'maplibre-gl';
+import {
+  LngLat,
+  MapboxGeoJSONFeature,
+  MapMouseEvent,
+  PointLike,
+} from 'maplibre-gl';
 import Base from '../Base/Base';
 import Button from '../Button/Button';
 import popupTemplate from './popupTemplate';
@@ -6,17 +11,17 @@ import iconInspect from '../icons/inspect';
 
 interface InspectControlOptions {
   /** Log inspected features to console */
-  console?: boolean
+  console?: boolean;
 }
 
 export default class InspectControl extends Base {
-  console: boolean
-  popupNode: HTMLDivElement
-  lngLat: LngLat
-  isInspecting: boolean
-  button: Button
-  mapContainer: HTMLElement
-  mapCanvas: HTMLCanvasElement
+  console: boolean;
+  popupNode: HTMLDivElement;
+  lngLat: LngLat;
+  isInspecting: boolean;
+  button: Button;
+  mapContainer: HTMLElement;
+  mapCanvas: HTMLCanvasElement;
 
   constructor(options?: InspectControlOptions) {
     super();

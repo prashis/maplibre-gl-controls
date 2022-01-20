@@ -9,15 +9,15 @@ interface TooltipControlOptions {
 }
 
 export default class TooltipControl extends Base {
-  layer: string
-  getContent: (event: MapMouseEvent) => string
-  container: HTMLDivElement
-  eventShow: keyof MapLayerEventType
-  eventHide: keyof MapLayerEventType
-  lngLat: LngLat
-  cursorStyle: string
-  mapContainer: HTMLElement
-  mapCanvas: HTMLCanvasElement
+  layer: string;
+  getContent: (event: MapMouseEvent) => string;
+  container: HTMLDivElement;
+  eventShow: keyof MapLayerEventType;
+  eventHide: keyof MapLayerEventType;
+  lngLat: LngLat;
+  cursorStyle: string;
+  mapContainer: HTMLElement;
+  mapCanvas: HTMLCanvasElement;
 
   constructor(options: TooltipControlOptions) {
     super();

@@ -54,7 +54,7 @@ export default function popupTemplate(features: MapboxGeoJSONFeature[]) {
     const button = document.createElement('div');
     button.setAttribute('type', 'button');
     button.classList.add('mapbox-control-inspect-next');
-    button.appendChild((iconRight()));
+    button.appendChild(iconRight());
     button.addEventListener('click', () => goTo(Direction.Next));
     return button;
   };

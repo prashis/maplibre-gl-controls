@@ -8,15 +8,15 @@ import moveable from './moveable';
 import resizeable from './resizeable';
 
 export default class ImageControl extends Base {
-  button: Button
-  mapContainer: HTMLElement
-  fileInput: HTMLInputElement
-  images: IImage[]
-  editMode: EditMode
-  selectedImage?: IImage
-  cursorPosition?: LngLat
-  movingModeOff?: () => void
-  transformModeOff?: () => void
+  button: Button;
+  mapContainer: HTMLElement;
+  fileInput: HTMLInputElement;
+  images: IImage[];
+  editMode: EditMode;
+  selectedImage?: IImage;
+  cursorPosition?: LngLat;
+  movingModeOff?: () => void;
+  transformModeOff?: () => void;
 
   constructor() {
     super();
@@ -52,7 +52,10 @@ export default class ImageControl extends Base {
     });
   }
 
-  async addImage(data: File | string, options: { position?: ImagePosition } = {}): Promise<IImage> {
+  async addImage(
+    data: File | string,
+    options: { position?: ImagePosition } = {},
+  ): Promise<IImage> {
     const image = new IImage();
     if (typeof data === 'string') {
       await image.loadUrl(data);
@@ -81,7 +84,7 @@ export default class ImageControl extends Base {
   }
 
   redraw() {
-    this.images.forEach(image => this.drawImage(image));
+    this.images.forEach((image) => this.drawImage(image));
     if (this.movingModeOff) {
       this.movingModeOff();
     }
@@ -91,8 +94,10 @@ export default class ImageControl extends Base {
   }
 
   onMapClick(event: MapMouseEvent) {
-    const imageFillLayersId = this.images.map(i => i.fillLayer.id);
-    const features = this.map.queryRenderedFeatures(event.point, { layers: imageFillLayersId });
+    const imageFillLayersId = this.images.map((i) => i.fillLayer.id);
+    const features = this.map.queryRenderedFeatures(event.point, {
+      layers: imageFillLayersId,
+    });
     if (features.length) {
       this.selectImage(features[0].properties.id as string);
     } else {
@@ -115,15 +120,16 @@ export default class ImageControl extends Base {
     this.transformModeOff = resizeable({
       map: this.map,
       image: this.selectedImage,
-      onUpdate: ((position) => {
+      onUpdate: (position) => {
         this.updateImageSource(position as ImagePosition);
-      }),
+      },
     });
   }
 
   selectImage(id: string) {
-    if (this.selectedImage && this.selectedImage.id !== id) this.deselectImage();
-    const selectedImage = this.images.find(i => i.id === id);
+    if (this.selectedImage && this.selectedImage.id !== id)
+      this.deselectImage();
+    const selectedImage = this.images.find((i) => i.id === id);
     if (selectedImage.locked) return;
 
     this.selectedImage = selectedImage;
@@ -157,14 +163,20 @@ export default class ImageControl extends Base {
   updateImageSource(position: ImagePosition) {
     const selectedImage = this.selectedImage;
     selectedImage.position = position;
-    (this.map.getSource(selectedImage.imageSource.id) as ImageSource).setCoordinates(selectedImage.coordinates);
-    (this.map.getSource(selectedImage.polygonSource.id) as GeoJSONSource).setData(selectedImage.asPolygon);
-    (this.map.getSource(selectedImage.cornersSource.id) as GeoJSONSource).setData(selectedImage.asPoints);
+    (
+      this.map.getSource(selectedImage.imageSource.id) as ImageSource
+    ).setCoordinates(selectedImage.coordinates);
+    (
+      this.map.getSource(selectedImage.polygonSource.id) as GeoJSONSource
+    ).setData(selectedImage.asPolygon);
+    (
+      this.map.getSource(selectedImage.cornersSource.id) as GeoJSONSource
+    ).setData(selectedImage.asPoints);
     this.map.fire('image.update', this.selectedImage);
   }
 
   setLock(imageId: string, value: boolean) {
-    const image = this.images.find(i => i.id === imageId);
+    const image = this.images.find((i) => i.id === imageId);
     if (!image) throw Error(`image with id ${imageId} doesn't exist`);
     image.locked = value;
   }

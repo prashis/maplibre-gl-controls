@@ -3,7 +3,7 @@ import Button from '../Button/Button';
 
 class Base {
   node: HTMLDivElement;
-  map: Map
+  map: Map;
 
   constructor() {
     this.node = document.createElement('div');

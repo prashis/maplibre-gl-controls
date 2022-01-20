@@ -18,46 +18,46 @@ const HALO_COLOR = '#fff';
 
 interface RulerControlOptions {
   /** Any units [@turf/distance](https://github.com/Turfjs/turf/tree/master/packages/turf-distance) supports */
-  units?: Units
+  units?: Units;
   /** Array of fonts */
-  font?: string[]
+  font?: string[];
   /** Label font size */
-  fontSize?: number
+  fontSize?: number;
   /** Label font halo size */
-  fontHalo?: number
+  fontHalo?: number;
   /** Accepts number and returns label. Can be used to convert value to any measuring units */
-  labelFormat?: (n: number) => string
+  labelFormat?: (n: number) => string;
   /** Color of ruler lines */
-  mainColor?: string
+  mainColor?: string;
   /** Color of halo and inner marker background. */
-  secondaryColor?: string
+  secondaryColor?: string;
   /** Array of anchor positions */
-  textVariableAnchor?: string[]
+  textVariableAnchor?: string[];
   /** Is allowed to overlap labels */
-  textAllowOverlap?: boolean
+  textAllowOverlap?: boolean;
   /** Width and Height of the marker in `px` */
-  markerNodeSize?: number
+  markerNodeSize?: number;
   /** Width of the marker's border in `px` */
-  markerNodeBorderWidth?: number
+  markerNodeBorderWidth?: number;
 }
 
 export default class RulerControl extends Base {
-  isMeasuring: boolean
-  markers: Marker[]
-  coordinates: Position[]
-  labels: string[]
-  units: Units
-  font: string[]
-  fontSize: number
-  fontHalo: number
-  textVariableAnchor: string[]
-  textAllowOverlap: boolean
-  markerNodeSize: string
-  markerNodeBorderWidth: string
-  labelFormat: (n: number) => string
-  mainColor: string
-  secondaryColor: string
-  button: Button
+  isMeasuring: boolean;
+  markers: Marker[];
+  coordinates: Position[];
+  labels: string[];
+  units: Units;
+  font: string[];
+  fontSize: number;
+  fontHalo: number;
+  textVariableAnchor: string[];
+  textAllowOverlap: boolean;
+  markerNodeSize: string;
+  markerNodeBorderWidth: string;
+  labelFormat: (n: number) => string;
+  mainColor: string;
+  secondaryColor: string;
+  button: Button;
 
   constructor(options?: RulerControlOptions) {
     super();
@@ -156,7 +156,7 @@ export default class RulerControl extends Base {
     this.map.removeLayer(LAYER_SYMBOL);
     this.map.removeSource(SOURCE_LINE);
     this.map.removeSource(SOURCE_SYMBOL);
-    this.markers.forEach(m => m.remove());
+    this.markers.forEach((m) => m.remove());
     this.map.off('click', this.mapClickListener);
     this.map.off('style.load', this.styleLoadListener);
     this.map.fire('ruler.off');
@@ -165,7 +165,10 @@ export default class RulerControl extends Base {
   mapClickListener(event) {
     const markerNode = this.getMarkerNode();
 
-    const marker = new maplibregl.Marker({ element: markerNode, draggable: true })
+    const marker = new maplibregl.Marker({
+      element: markerNode,
+      draggable: true,
+    })
       .setLngLat(event.lngLat)
       .addTo(this.map);
     const newCoordinate = [event.lngLat.lng, event.lngLat.lat];

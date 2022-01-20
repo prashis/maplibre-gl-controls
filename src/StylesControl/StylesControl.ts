@@ -4,15 +4,15 @@ import { StyleOption } from './types';
 
 interface StylesControlOptions {
   /** Array of style options */
-  styles?: StyleOption[]
+  styles?: StyleOption[];
   /** Triggered on style change */
-  onChange?: (StyleOption) => void
+  onChange?: (StyleOption) => void;
 }
 
 export default class StylesControl extends Base {
-  styles: StyleOption[]
-  onChange: (StyleOption) => void
-  buttons: Button[]
+  styles: StyleOption[];
+  onChange: (StyleOption) => void;
+  buttons: Button[];
 
   constructor(options?: StylesControlOptions) {
     super();
@@ -39,7 +39,7 @@ export default class StylesControl extends Base {
       this.buttons.forEach((button) => {
         button.removeClassName('-active');
       });
-      const styleNames = this.styles.map(style => style.styleName);
+      const styleNames = this.styles.map((style) => style.styleName);
       const currentStyleIndex = styleNames.indexOf(this.map.getStyle().name);
       if (currentStyleIndex !== -1) {
         const currentButton = this.buttons[currentStyleIndex];
@@ -54,7 +54,8 @@ export default class StylesControl extends Base {
         label: 'Streets',
         styleName: 'Mapbox Streets',
         styleUrl: 'mapbox://styles/mapbox/streets-v11',
-      }, {
+      },
+      {
         label: 'Satellite',
         styleName: 'Mapbox Satellite Streets',
         styleUrl: 'mapbox://sprites/mapbox/satellite-streets-v11',

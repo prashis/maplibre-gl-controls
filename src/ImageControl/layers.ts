@@ -28,5 +28,5 @@ export const cornersLayer: CircleLayer = {
     'circle-color': '#3d5afe',
     'circle-stroke-width': 3,
     'circle-stroke-color': '#fff',
-  }
+  },
 };

@@ -1,6 +1,6 @@
 class Button {
-  node: HTMLButtonElement
-  icon: SVGElement
+  node: HTMLButtonElement;
+  icon: SVGElement;
 
   constructor() {
     this.node = document.createElement('button');

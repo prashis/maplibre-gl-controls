@@ -19,12 +19,16 @@ function getClosestPoint(a: P, b: P, p: P): P {
 }
 
 interface Options {
-  map: Map
-  image: IImage
-  onUpdate: (position: ImagePosition) => void
+  map: Map;
+  image: IImage;
+  onUpdate: (position: ImagePosition) => void;
 }
 
-export default function resizeable({ map, image, onUpdate }: Options): () => void {
+export default function resizeable({
+  map,
+  image,
+  onUpdate,
+}: Options): () => void {
   const mapCanvas = map.getCanvas();
   let currentIndex: number;
 
@@ -33,13 +37,22 @@ export default function resizeable({ map, image, onUpdate }: Options): () => voi
 
   function onPointerMove(event: MapMouseEvent) {
     const pointA = map.project(image.position[currentIndex]);
-    const pointB = map.project(image.position[image.getOppositePoint(currentIndex)]);
+    const pointB = map.project(
+      image.position[image.getOppositePoint(currentIndex)],
+    );
     const pointP = map.project(event.lngLat);
-    const closestPoint = getClosestPoint([pointA.x, pointA.y], [pointB.x, pointB.y], [pointP.x, pointP.y]);
+    const closestPoint = getClosestPoint(
+      [pointA.x, pointA.y],
+      [pointB.x, pointB.y],
+      [pointP.x, pointP.y],
+    );
     const closestLngLat = map.unproject(closestPoint);
     const scaledPosition = image.position;
 
-    scaledPosition[currentIndex] = new LngLat(closestLngLat.lng, closestLngLat.lat);
+    scaledPosition[currentIndex] = new LngLat(
+      closestLngLat.lng,
+      closestLngLat.lat,
+    );
     setResizeCursor(currentIndex);
 
     if (currentIndex === 0) {
@@ -85,7 +98,9 @@ export default function resizeable({ map, image, onUpdate }: Options): () => voi
   }
 
   function setResizeCursor(index: number) {
-    mapCanvas.style.cursor = [1, 3].includes(index) ? Cursor.NESWResize : Cursor.NWSEResize;
+    mapCanvas.style.cursor = [1, 3].includes(index)
+      ? Cursor.NESWResize
+      : Cursor.NWSEResize;
   }
 
   map.on('mouseenter', cornersLayer.id, onPointerEnter);
